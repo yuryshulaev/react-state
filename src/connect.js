@@ -1,0 +1,71 @@
+import React, {PureComponent} from 'react';
+import pick from 'lodash/pick';
+import PropTypes from 'prop-types';
+
+export default function connect(connectors) {
+	const storeNames = Object.keys(connectors);
+
+	return WrappedComponent => {
+		class Connect extends PureComponent {
+			static contextTypes = {
+				stores: PropTypes.object,
+			};
+
+			constructor(props, context) {
+				super(props);
+				this.childProps = {...pick(context.stores, storeNames), ...props};
+			}
+
+			componentDidMount() {
+				for (const storeName of storeNames) {
+					this.getStore(storeName).subscribe(this.onStoreUpdate);
+				}
+			}
+
+			componentWillUnmount() {
+				for (const storeName of storeNames) {
+					this.getStore(storeName).unsubscribe(this.onStoreUpdate);
+				}
+			}
+
+			onStoreUpdate = store => {
+				this.forceUpdate();
+			}
+
+			render() {
+				return <WrappedComponent {...this.getChildProps()}/>;
+			}
+
+			getChildProps() {
+				const props = {...this.childProps};
+
+				for (const storeName of storeNames) {
+					Object.assign(props, connectors[storeName](this.getStore(storeName)))
+				}
+
+				return props;
+			}
+
+			getStore(name) {
+				return this.childProps[name];
+			}
+		};
+
+		Connect.displayName = 'Connect(' + (WrappedComponent.displayName || WrappedComponent.name || 'Component') + ')';
+		return Connect;
+	};
+}
+
+function pickImmutable(keys, obj) {
+	const picked = {};
+
+	for (const key of keys) {
+		picked[key] = obj.get(key);
+	}
+
+	return picked;
+}
+
+export function pickState(keys) {
+	return store => pickImmutable(keys, store.state);
+}
