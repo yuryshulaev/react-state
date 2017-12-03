@@ -20,7 +20,6 @@ export default class TodoListStore extends Store {
 
 	async load() {
 		if (this.loadRequest) {
-			console.log('%ccancel current loadRequest', 'color: red');
 			this.loadRequest.cancel();
 			this.loadRequest = null;
 		}
@@ -34,7 +33,6 @@ export default class TodoListStore extends Store {
 	monitorFilter = memoize([
 		() => this.state.get('filter'),
 	], filter => {
-		console.log('%cfilter changed', 'color: blue', filter);
 		this.load();
 	})
 
@@ -49,7 +47,6 @@ export default class TodoListStore extends Store {
 	getUnfinishedTodoCount = memoize([
 		() => this.state.get('todos'),
 	], todos => {
-		console.log('recalculate getUnfinishedTodoCount');
 		return todos.reduce((acc, todo) => acc + (todo.get('completed') ? 0 : 1), 0);
 	})
 }

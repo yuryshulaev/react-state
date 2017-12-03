@@ -10,7 +10,6 @@ export default class Store {
 	}
 
 	subscribe(subscriber) {
-		console.log('subscribe');
 		const index = this.subscribers.indexOf(subscriber);
 
 		if (index !== -1) {
@@ -26,7 +25,6 @@ export default class Store {
 	}
 
 	unsubscribe(subscriber) {
-		console.log('unsubscribe');
 		const index = this.subscribers.indexOf(subscriber);
 
 		if (index !== -1) {
