@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import cancellable from './cancellable';
-import TodoListStore from './TodoListStore';
+import TodoStore from './TodoStore';
 import App from './App';
 
 it('renders without crashing', () => {
@@ -10,13 +10,13 @@ it('renders without crashing', () => {
 	};
 
 	const stores = {
-		todoStore1: new TodoListStore({
+		todoStore1: new TodoStore({
 			todos: [
 				{id: 1, title: '1/First', completed: false},
 				{id: 2, title: '1/Second', completed: true},
 			],
 		}, env),
-		todoStore2: new TodoListStore({
+		todoStore2: new TodoStore({
 			todos: [
 				{id: 1, title: '2/First', completed: false},
 				{id: 2, title: '2/Second', completed: true},

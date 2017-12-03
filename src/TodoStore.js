@@ -2,7 +2,7 @@ import throttle from 'lodash/throttle';
 import Store from './Store';
 import memoize from './memoize';
 
-export default class TodoListStore extends Store {
+export default class TodoStore extends Store {
 	static initialState = {
 		todos: [],
 		requestStatus: 'notAsked',
