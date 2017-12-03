@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import {pure} from 'recompose';
 import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
 
@@ -6,6 +7,8 @@ export default function connect(connectors) {
 	const storeNames = Object.keys(connectors);
 
 	return WrappedComponent => {
+		const PureWrappedComponent = pure(WrappedComponent);
+
 		class Connect extends PureComponent {
 			static contextTypes = {
 				stores: PropTypes.object,
@@ -33,7 +36,7 @@ export default function connect(connectors) {
 			}
 
 			render() {
-				return <WrappedComponent {...this.getChildProps()}/>;
+				return <PureWrappedComponent {...this.getChildProps()}/>;
 			}
 
 			getChildProps() {

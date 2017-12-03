@@ -15,10 +15,10 @@ export default class TodoListStore extends Store {
 
 	constructor(...args) {
 		super(...args);
-		this.subscribeAndCall(throttle(this.monitorFilter, 1000));
+		this.subscribeAndCall(throttle(() => this.watchFilter(), 1000));
 	}
 
-	async load() {
+	async reload() {
 		if (this.loadRequest) {
 			this.loadRequest.cancel();
 			this.loadRequest = null;
@@ -30,10 +30,10 @@ export default class TodoListStore extends Store {
 		this.setState(this.state.set('todos', immutable.fromJS(todos)));
 	}
 
-	monitorFilter = memoize([
+	watchFilter = memoize([
 		() => this.state.get('filter'),
 	], filter => {
-		this.load();
+		this.reload();
 	})
 
 	setFilter(filter) {

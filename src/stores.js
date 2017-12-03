@@ -19,7 +19,10 @@ const stores = {
 	}, env),
 };
 
-spy(stores.todoStore1);
-spy(stores.todoStore2);
+
+if (process.env.NODE_ENV === 'development') {
+	spy(stores.todoStore1);
+	spy(stores.todoStore2);
+}
 
 export default stores;

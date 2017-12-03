@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import connect, {pickState} from './connect';
 import Todo from './Todo';
 
@@ -7,7 +7,7 @@ export default connect({
 		...pickState(['todos', 'filter', 'requestStatus'])(todoStore),
 		unfinishedTodoCount: todoStore.getUnfinishedTodoCount(),
 	}),
-})(class TodoList extends PureComponent {
+})(class TodoList extends Component {
 	render() {
 		const {todos, unfinishedTodoCount, filter, requestStatus} = this.props;
 

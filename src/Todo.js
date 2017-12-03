@@ -1,8 +1,7 @@
 import React, {PureComponent} from 'react';
 import glamorous from 'glamorous';
 
-const Root = glamorous.h2({
-}, ({completed}) => ({
+const Root = glamorous.h2(({completed}) => ({
 	textDecoration: completed && 'line-through',
 }));
 
