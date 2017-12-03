@@ -1,8 +1,12 @@
 import * as api from './api';
+import storeFetch from './storeFetch';
 import TodoListStore from './TodoListStore';
 import spy from './spy';
 
-export const env = {api};
+export const env = {
+	api,
+	fetch: storeFetch,
+};
 
 const stores = {
 	todoStore1: new TodoListStore({

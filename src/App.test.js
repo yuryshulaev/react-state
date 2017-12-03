@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import cancellable from './cancellable';
 import TodoListStore from './TodoListStore';
 import App from './App';
 
 it('renders without crashing', () => {
 	const env = {
-		api: {
-			fetchJson: () => Promise.resolve([]),
-		}
+		fetch: () => cancellable(Promise.resolve([])),
 	};
 
 	const stores = {

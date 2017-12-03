@@ -1,8 +1,6 @@
-import immutable from 'immutable';
 import throttle from 'lodash/throttle';
 import Store from './Store';
 import memoize from './memoize';
-import fetchRemoteData from './fetchRemoteData';
 
 export default class TodoListStore extends Store {
 	static initialState = {
@@ -11,23 +9,14 @@ export default class TodoListStore extends Store {
 		filter: 0,
 	};
 
-	loadRequest = null;
-
 	constructor(...args) {
 		super(...args);
 		this.subscribeAndCall(throttle(() => this.watchFilter(), 1000));
 	}
 
 	async reload() {
-		if (this.loadRequest) {
-			this.loadRequest.cancel();
-			this.loadRequest = null;
-		}
-
-		this.loadRequest = this.env.api.fetchJson('https://jsonplaceholder.typicode.com/todos');
-		const todos = await fetchRemoteData(this, this.loadRequest);
-		this.loadRequest = null;
-		this.setState(this.state.set('todos', immutable.fromJS(todos)));
+		const todos = await this.env.fetch(this, 'https://jsonplaceholder.typicode.com/todos', 'loadRequest');
+		this.setState(this.state.set('todos', todos));
 	}
 
 	watchFilter = memoize([
