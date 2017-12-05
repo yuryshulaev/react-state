@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import connect, {pickState} from './connect';
+import connect from './connect';
 import Todo from './Todo';
 
 export default connect({
 	todoStore: todoStore => ({
-		...pickState(['todos', 'filter', 'requestStatus'])(todoStore),
+		...todoStore.pickState(['todos', 'filter', 'requestStatus']),
 		unfinishedTodoCount: todoStore.getUnfinishedTodoCount(),
 	}),
 })(class TodoList extends Component {
@@ -16,7 +16,7 @@ export default connect({
 				<div onClick={this.onFilterClick}>{filter}</div>
 				<div>{requestStatus}</div>
 				{todos.map((todo, i) =>
-					<Todo key={todo.get('id')} todo={todo} index={i} onClick={this.onTodoClick}/>
+					<Todo key={todo.id} todo={todo} index={i} onClick={this.onTodoClick}/>
 				)}
 				<div>Unfinished: <strong>{unfinishedTodoCount}</strong></div>
 			</div>
@@ -24,8 +24,8 @@ export default connect({
 	}
 
 	onFilterClick = () => {
-		const {todoStore} = this.props;
-		todoStore.setFilter(todoStore.state.get('filter') + 1);
+		const {todoStore, filter} = this.props;
+		todoStore.setFilter(filter + 1);
 	}
 
 	onTodoClick = (index, event) => {

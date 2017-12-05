@@ -10,8 +10,8 @@ export default class Todo extends PureComponent {
 		const {todo} = this.props;
 
 		return (
-			<Root completed={todo.get('completed')} onClick={this.onClick}>
-				{todo.get('title')}
+			<Root completed={todo.completed} onClick={this.onClick}>
+				{todo.title}
 			</Root>
 		);
 	}

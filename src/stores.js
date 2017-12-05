@@ -1,11 +1,12 @@
 import * as api from './api';
-import storeFetch from './storeFetch';
+import storeFetch, {storeFetchRaw} from './storeFetch';
 import TodoStore from './TodoStore';
 import spy from './spy';
 
 export const env = {
 	api,
 	fetch: storeFetch,
+	fetchRaw: storeFetchRaw,
 };
 
 const stores = {

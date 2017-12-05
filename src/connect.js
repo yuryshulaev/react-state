@@ -58,17 +58,3 @@ export default function connect(connectors) {
 		return Connect;
 	};
 }
-
-function pickImmutable(keys, obj) {
-	const picked = {};
-
-	for (const key of keys) {
-		picked[key] = obj.get(key);
-	}
-
-	return picked;
-}
-
-export function pickState(keys) {
-	return store => pickImmutable(keys, store.state);
-}

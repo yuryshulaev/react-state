@@ -1,8 +1,8 @@
 import throttle from 'lodash/throttle';
-import Store from './Store';
+import SeamlessStore from './SeamlessStore';
 import memoize from './memoize';
 
-export default class TodoStore extends Store {
+export default class TodoStore extends SeamlessStore {
 	static initialState = {
 		todos: [],
 		requestStatus: 'notAsked',
@@ -20,7 +20,7 @@ export default class TodoStore extends Store {
 	}
 
 	watchFilter = memoize([
-		() => this.state.get('filter'),
+		() => this.state.filter,
 	], filter => {
 		this.reload();
 	})
@@ -34,8 +34,8 @@ export default class TodoStore extends Store {
 	}
 
 	getUnfinishedTodoCount = memoize([
-		() => this.state.get('todos'),
+		() => this.state.todos,
 	], todos => {
-		return todos.reduce((acc, todo) => acc + (todo.get('completed') ? 0 : 1), 0);
+		return todos.reduce((acc, todo) => acc + (todo.completed ? 0 : 1), 0);
 	})
 }
