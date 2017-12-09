@@ -1,13 +1,14 @@
 import flyd from 'flyd';
-import {dropRepeats, dropRepeatsWith} from 'flyd/module/droprepeats';
+import {dropRepeatsWith} from 'flyd/module/droprepeats';
+import atom from './atom';
 import debounceInit from './debounceInit';
 import {equals} from 'ramda';
 import SeamlessStore from './SeamlessStore';
 
 export default class TodoStore extends SeamlessStore {
-	todos = dropRepeats(flyd.stream(this.convertFromRaw([])));
-	requestStatus = dropRepeats(flyd.stream('notAsked'));
-	filter = dropRepeats(flyd.stream(0));
+	todos = atom(this.convertFromRaw([]));
+	requestStatus = atom('notAsked');
+	filter = atom(0);
 	filterDebounced = dropRepeatsWith(equals, debounceInit(1000, this.filter));
 	reloadOnFilterChange = flyd.on(() => this.reload(), this.filterDebounced);
 

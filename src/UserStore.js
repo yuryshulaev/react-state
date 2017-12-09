@@ -1,9 +1,8 @@
-import flyd from 'flyd';
-import {dropRepeats} from 'flyd/module/droprepeats';
+import atom from './atom';
 import SeamlessStore from './SeamlessStore';
 
 export default class UserStore extends SeamlessStore {
-	currentUser = dropRepeats(flyd.stream());
+	currentUser = atom();
 
 	setCurrentUserId(id) {
 		this.currentUser(this.currentUser().set('id', id));
