@@ -15,8 +15,10 @@ export default class TodoStore extends SeamlessStore {
 		return todos.reduce((acc, todo) => acc + (todo.completed ? 0 : 1), 0);
 	});
 
-	async reload() {
-		this.todos(await this.env.fetch(this, 'https://jsonplaceholder.typicode.com/todos', 'loadRequest'));
+	request = null;
+
+	reload() {
+		this.todos(this.env.fetch(this, 'https://jsonplaceholder.typicode.com/todos', 'request'));
 	}
 
 	setFilter(filter) {

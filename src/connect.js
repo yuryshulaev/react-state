@@ -35,7 +35,7 @@ export default function connect(connectors) {
 
 			componentWillUnmount() {
 				for (const storeName of storeNames) {
-					this.subscriptions[storeName].end();
+					this.subscriptions[storeName].end(true);
 				}
 			}
 

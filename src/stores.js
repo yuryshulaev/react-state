@@ -25,7 +25,12 @@ class Stores {
 		],
 	});
 
-	userStore = new UserStore();
+	userStore = new UserStore().setState({
+		currentUser: {
+			id: 1,
+			name: 'Some user',
+		},
+	});
 
 	userInfoStore = new UserInfoStore({
 		userStore: this.userStore,
