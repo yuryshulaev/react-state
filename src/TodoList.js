@@ -7,16 +7,19 @@ export default connect({
 		...todoStore.pickState(['todos', 'filter', 'requestStatus']),
 		unfinishedTodoCount: todoStore.getUnfinishedTodoCount(),
 	}),
+	userStore: userStore => ({
+		currentUserId: userStore.state.currentUser.id,
+	}),
 })(class TodoList extends Component {
 	render() {
-		const {todos, unfinishedTodoCount, filter, requestStatus} = this.props;
+		const {todos, unfinishedTodoCount, filter, requestStatus, currentUserId} = this.props;
 
 		return (
 			<div>
 				<div onClick={this.onFilterClick}>{filter}</div>
 				<div>{requestStatus}</div>
 				{todos.map((todo, i) =>
-					<Todo key={todo.id} todo={todo} index={i} onClick={this.onTodoClick}/>
+					<Todo key={todo.id} todo={todo} index={i} isAuthor={todo.userId === currentUserId} onClick={this.onTodoClick}/>
 				)}
 				<div>Unfinished: <strong>{unfinishedTodoCount}</strong></div>
 			</div>

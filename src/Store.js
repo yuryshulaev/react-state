@@ -1,10 +1,16 @@
 export default class Store {
 	static initialState = {};
 
-	constructor(state, env = {}) {
+	constructor(state = {}, dependencies = {}, env = {}) {
 		this.state = this.mergeData(this.convertFromRaw(this.constructor.initialState), state);
 		this.env = env;
 		this.subscribers = [];
+
+		for (const key in dependencies) {
+			const dependency = dependencies[key];
+			this[key] = dependency;
+			dependency.subscribe(this.onDependencyUpdate);
+		}
 	}
 
 	subscribe(subscriber) {
@@ -30,15 +36,30 @@ export default class Store {
 		}
 	}
 
-	emit() {
+	notify() {
+		if (process.env.NODE_ENV === 'development' && this.constructor.debug) {
+			console.group('%cnotify', 'color: mediumPurple', this.constructor.name);
+			console.groupCollapsed('more');
+			console.trace();
+			console.groupEnd();
+		}
+
 		for (const subscriber of this.subscribers) {
 			subscriber(this);
+		}
+
+		if (process.env.NODE_ENV === 'development' && this.constructor.debug) {
+			console.groupEnd();
 		}
 	}
 
 	setState(state) {
 		this.state = state;
-		this.emit();
+		this.notify();
+	}
+
+	onDependencyUpdate = () => {
+		this.notify();
 	}
 
 	convertFromRaw(data) {
