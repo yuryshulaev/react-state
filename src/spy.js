@@ -1,3 +1,4 @@
+// @flow
 import flyd from 'flyd';
 
 function getAllPropertyNames(obj) {
@@ -11,7 +12,7 @@ function getAllPropertyNames(obj) {
 	return props;
 }
 
-export default function spy(obj) {
+export default function spy(obj: Object) {
 	for (const key of getAllPropertyNames(obj)) {
 		const value = obj[key];
 

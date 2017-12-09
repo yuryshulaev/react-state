@@ -1,12 +1,13 @@
+// @flow
 import Immutable from 'seamless-immutable';
 import Store from './Store';
 
 export default class SeamlessStore extends Store {
-	convertFromRaw(data) {
+	convertFromRaw(data: any) {
 		return Immutable(data);
 	}
 
-	mergeData(a, b) {
+	mergeData(a: Object, b: Object) {
 		return Immutable.merge(a, b);
 	}
 }

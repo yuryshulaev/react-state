@@ -1,5 +1,11 @@
-export default function cancellable(promise) {
-	const cancellablePromise = new Promise((resolve, reject) => {
+// @flow
+export type CancellablePromise<T> = Promise<T> & {
+	cancelled: boolean,
+	cancel: () => void,
+};
+
+export default function cancellable<T>(promise: Promise<T>) {
+	const cancellablePromise: CancellablePromise<T> = (new Promise((resolve, reject) => {
 		promise.then(
 			result => {
 				if (!cancellablePromise.cancelled) {
@@ -12,7 +18,7 @@ export default function cancellable(promise) {
 				}
 			}
 		)
-	});
+	}) : any);
 
 	cancellablePromise.cancelled = false;
 	cancellablePromise.cancel = () => {cancellablePromise.cancelled = true};

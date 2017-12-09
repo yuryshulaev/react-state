@@ -1,8 +1,9 @@
+// @flow
 import {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 
-export default class Provider extends PureComponent {
+export default class Provider extends PureComponent<Object> {
 	static childContextTypes = {
 		stores: PropTypes.object,
 	};

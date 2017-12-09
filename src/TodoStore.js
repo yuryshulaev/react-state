@@ -1,9 +1,17 @@
+// @flow
 import flyd from 'flyd';
 import {dropRepeatsWith} from 'flyd/module/droprepeats';
 import atom from './atom';
 import debounceInit from './debounceInit';
 import {equals} from 'ramda';
 import SeamlessStore from './SeamlessStore';
+
+export type TodoModel = {|
+	id: number,
+	title: string,
+	userId: number,
+	completed: boolean,
+|};
 
 export default class TodoStore extends SeamlessStore {
 	todos = atom(this.convertFromRaw([]));
@@ -22,11 +30,11 @@ export default class TodoStore extends SeamlessStore {
 		this.todos(this.env.fetch(this, 'https://jsonplaceholder.typicode.com/todos', 'request'));
 	}
 
-	setFilter(filter) {
+	setFilter(filter: number) {
 		this.filter(filter);
 	}
 
-	toggle(index) {
+	toggle(index: number) {
 		this.todos(this.todos().updateIn([index, 'completed'], completed => !completed));
 	}
 }

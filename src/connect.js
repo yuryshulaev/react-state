@@ -1,22 +1,27 @@
-import React, {PureComponent} from 'react';
-import flyd from 'flyd';
+// @flow
+import React, {PureComponent, type ComponentType} from 'react';
+import flyd, {type Stream} from 'flyd';
 import flydObj from 'flyd/module/obj';
 import {pure} from 'recompose';
 import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
 
-export default function connect(connectors) {
+export default function connect(connectors: {[string]: Function}) {
 	const storeNames = Object.keys(connectors);
 
-	return WrappedComponent => {
+	return (WrappedComponent: ComponentType<*>) => {
 		const PureWrappedComponent = pure(WrappedComponent);
 
-		class Connect extends PureComponent {
+		class Connect extends PureComponent<Object> {
 			static contextTypes = {
 				stores: PropTypes.object,
 			};
 
-			constructor(props, context) {
+			childProps: Object
+			storeStreams: {[string]: Stream}
+			subscriptions: {[string]: Stream}
+
+			constructor(props: Object, context: Object) {
 				super(props);
 				this.childProps = {...pick(context.stores, storeNames), ...props};
 				this.storeStreams = {};
@@ -57,7 +62,7 @@ export default function connect(connectors) {
 				return props;
 			}
 
-			getStore(name) {
+			getStore(name: string) {
 				return this.childProps[name];
 			}
 		};

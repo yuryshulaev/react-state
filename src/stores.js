@@ -1,3 +1,4 @@
+// @flow
 import * as api from './api';
 import storeFetch, {storeFetchRaw} from './storeFetch';
 import TodoStore from './TodoStore';

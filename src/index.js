@@ -1,19 +1,21 @@
+// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Store from './Store';
 import stores from './stores';
 import spy from './spy';
 import './index.css';
 
 if (process.env.NODE_ENV === 'development') {
-	Store.debug = true;
-
 	for (const key in stores) {
-		spy(stores[key]);
+		spy((stores: any)[key]);
 	}
 
 	global.stores = stores;
 }
 
-ReactDOM.render(<App stores={stores}/>, document.getElementById('root'));
+const root = document.getElementById('root');
+
+if (root) {
+	ReactDOM.render(<App stores={stores}/>, root);
+}

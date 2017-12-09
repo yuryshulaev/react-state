@@ -1,22 +1,25 @@
+// @flow
 export default class Store {
-	constructor(dependencies = {}, env = {}) {
+	env: Object
+
+	constructor(dependencies: Object = {}, env: Object = {}) {
 		this.env = env;
 		Object.assign(this, dependencies);
 	}
 
-	setState(state) {
+	setState(state: Object) {
 		for (const key in state) {
-			this[key](this.convertFromRaw(state[key]));
+			(this: {[string]: Function})[key](this.convertFromRaw(state[key]));
 		}
 
 		return this;
 	}
 
-	convertFromRaw(data) {
+	convertFromRaw(data: any) {
 		return data;
 	}
 
-	mergeData(a, b) {
+	mergeData(a: Object, b: Object) {
 		return {...a, ...b};
 	}
 }

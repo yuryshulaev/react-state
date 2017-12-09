@@ -1,12 +1,24 @@
+// @flow
 import React, {Component} from 'react';
 import {pick} from 'ramda';
 import connect from './connect';
+import TodoStore, {type TodoModel} from './TodoStore';
+import {type UserModel} from './UserStore';
 import Todo from './Todo';
+
+type TodoListProps = {|
+	todos: TodoModel[],
+	unfinishedTodoCount: number,
+	filter: number,
+	requestStatus: string,
+	currentUser: UserModel,
+	todoStore: TodoStore,
+|};
 
 export default connect({
 	todoStore: pick(['todos', 'filter', 'requestStatus', 'unfinishedTodoCount']),
 	userStore: pick(['currentUser']),
-})(class TodoList extends Component {
+})(class TodoList extends Component<TodoListProps> {
 	render() {
 		const {todos, unfinishedTodoCount, filter, requestStatus, currentUser} = this.props;
 

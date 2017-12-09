@@ -1,3 +1,4 @@
+// @flow
 import flyd from 'flyd';
 
 function debounceInit(time, source) {

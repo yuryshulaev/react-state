@@ -1,6 +1,14 @@
+// @flow
 import React, {Component} from 'react';
 import {pick} from 'ramda';
 import connect from './connect';
+import UserStore, {type UserModel} from './UserStore';
+
+type UserInfoProps = {|
+	currentUser: UserModel,
+	userStore: UserStore,
+	unfinishedTodoCount: number,
+|};
 
 export default connect({
 	userInfoStore: userInfoStore => ({
@@ -8,7 +16,7 @@ export default connect({
 		userStore: userInfoStore.userStore,
 		currentUser: userInfoStore.userStore.currentUser,
 	}),
-})(class UserInfo extends Component {
+})(class UserInfo extends Component<UserInfoProps> {
 	render() {
 		const {currentUser, unfinishedTodoCount} = this.props;
 
