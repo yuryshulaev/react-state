@@ -1,14 +1,14 @@
+import flyd from 'flyd';
+import {dropRepeats} from 'flyd/module/droprepeats';
 import SeamlessStore from './SeamlessStore';
 
 export default class UserStore extends SeamlessStore {
-	static initialState = {
-		currentUser: {
-			id: 1,
-			name: 'Some user',
-		},
-	};
+	currentUser = dropRepeats(flyd.stream(this.convertFromRaw({
+		id: 1,
+		name: 'Some user',
+	})));
 
 	setCurrentUserId(id) {
-		this.setState(this.state.setIn(['currentUser', 'id'], id))
+		this.currentUser(this.currentUser().set('id', id));
 	}
 }

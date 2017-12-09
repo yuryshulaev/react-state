@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "flyd": "^0.2.4",
     "glamor": "^2.20.40",
     "glamorous": "^4.11.0",
     "immutable": "^3.8.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
+    "ramda": "^0.25.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "^1.0.17",

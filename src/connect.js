@@ -1,4 +1,6 @@
 import React, {PureComponent} from 'react';
+import flyd from 'flyd';
+import flydObj from 'flyd/module/obj';
 import {pure} from 'recompose';
 import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
@@ -17,21 +19,27 @@ export default function connect(connectors) {
 			constructor(props, context) {
 				super(props);
 				this.childProps = {...pick(context.stores, storeNames), ...props};
+				this.storeStreams = {};
+				this.subscriptions = {};
+
+				for (const storeName of storeNames) {
+					this.storeStreams[storeName] = flydObj.stream(connectors[storeName](this.getStore(storeName)));
+				}
 			}
 
 			componentDidMount() {
 				for (const storeName of storeNames) {
-					this.getStore(storeName).subscribe(this.onStoreUpdate);
+					this.subscriptions[storeName] = flyd.on(this.onDependencyUpdate, this.storeStreams[storeName]);
 				}
 			}
 
 			componentWillUnmount() {
 				for (const storeName of storeNames) {
-					this.getStore(storeName).unsubscribe(this.onStoreUpdate);
+					this.subscriptions[storeName].end();
 				}
 			}
 
-			onStoreUpdate = store => {
+			onDependencyUpdate = () => {
 				this.forceUpdate();
 			}
 
@@ -43,7 +51,7 @@ export default function connect(connectors) {
 				const props = {...this.childProps};
 
 				for (const storeName of storeNames) {
-					Object.assign(props, connectors[storeName](this.getStore(storeName)))
+					Object.assign(props, this.storeStreams[storeName]());
 				}
 
 				return props;

@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import {pick} from 'ramda';
 import connect from './connect';
 
 export default connect({
 	userInfoStore: userInfoStore => ({
+		...pick(['unfinishedTodoCount'], userInfoStore),
 		userStore: userInfoStore.userStore,
-		currentUser: userInfoStore.userStore.state.currentUser,
-		unfinishedTodoCount: userInfoStore.unfinishedTodoCount(userInfoStore.userStore.state.currentUser.id),
+		currentUser: userInfoStore.userStore.currentUser,
 	}),
 })(class UserInfo extends Component {
 	render() {

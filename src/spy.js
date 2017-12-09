@@ -1,3 +1,5 @@
+import flyd from 'flyd';
+
 function getAllPropertyNames(obj) {
 	const props = [];
 
@@ -13,7 +15,7 @@ export default function spy(obj) {
 	for (const key of getAllPropertyNames(obj)) {
 		const value = obj[key];
 
-		if (typeof value === 'function' && key !== 'constructor') {
+		if (typeof value === 'function' && key !== 'constructor' && !flyd.isStream(value)) {
 			obj[key] = function (...args) {
 				console.log('%ccalled', 'color: magenta', obj.constructor.name, key, args);
 				return value.apply(this, args);

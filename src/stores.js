@@ -11,23 +11,23 @@ export const env = {
 };
 
 class Stores {
-	todoStore1 = new TodoStore({
+	todoStore1 = new TodoStore({}, env).setState({
 		todos: [
 			{id: 1, title: '1/First', completed: false},
 			{id: 2, title: '1/Second', completed: true},
 		],
-	}, {}, env);
+	});
 
-	todoStore2 = new TodoStore({
+	todoStore2 = new TodoStore({}, env).setState({
 		todos: [
 			{id: 1, title: '2/First', completed: false},
 			{id: 2, title: '2/Second', completed: true},
 		],
-	}, {}, env);
+	});
 
 	userStore = new UserStore();
 
-	userInfoStore = new UserInfoStore({}, {
+	userInfoStore = new UserInfoStore({
 		userStore: this.userStore,
 		todoStore: this.todoStore1,
 	});

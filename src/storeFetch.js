@@ -8,7 +8,7 @@ export async function storeFetchRaw(store, url, requestField = null, requestStat
 		store[requestField] = null;
 	}
 
-	store.setState(store.state.set(requestStatusField, 'loading'));
+	store[requestStatusField]('loading');
 	const request = store.env.api.fetchJson(url);
 
 	if (requestField) {
@@ -17,11 +17,11 @@ export async function storeFetchRaw(store, url, requestField = null, requestStat
 
 	try {
 		const data = await request;
-		store.setState(store.state.set(requestStatusField, 'success'));
+		store[requestStatusField]('success');
 		return data;
 	} catch (err) {
 		console.error(err);
-		store.setState(store.state.set(requestStatusField, 'error'));
+		store[requestStatusField]('error');
 		throw err;
 	}
 }
