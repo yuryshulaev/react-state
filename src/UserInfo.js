@@ -4,8 +4,7 @@ import connect from './connect';
 
 export default connect({
 	userInfoStore: userInfoStore => ({
-		...pick(['unfinishedTodoCount'], userInfoStore),
-		userStore: userInfoStore.userStore,
+		...pick(['userStore', 'unfinishedTodoCount'], userInfoStore),
 		currentUser: userInfoStore.userStore.currentUser,
 	}),
 })(class UserInfo extends Component {

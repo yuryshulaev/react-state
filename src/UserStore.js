@@ -1,10 +1,11 @@
 import atom from './atom';
-import SeamlessStore from './SeamlessStore';
+import {set} from 'seamless-immutable';
+import Store from './Store';
 
-export default class UserStore extends SeamlessStore {
+export default class UserStore extends Store {
 	currentUser = atom();
 
 	setCurrentUserId(id) {
-		this.currentUser(this.currentUser().set('id', id));
+		this.currentUser(set(this.currentUser(), 'id', id));
 	}
 }

@@ -1,8 +1,4 @@
-export default async function storeFetch(store, ...rest) {
-	return store.convertFromRaw(await storeFetchRaw(store, ...rest));
-}
-
-export async function storeFetchRaw(store, url, requestField = null, requestStatusField = 'requestStatus') {
+export default async function storeFetch(store, url, requestField = null, requestStatusField = 'requestStatus') {
 	if (requestField && store[requestField]) {
 		store[requestField].cancel();
 		store[requestField] = null;

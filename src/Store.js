@@ -6,17 +6,9 @@ export default class Store {
 
 	setState(state) {
 		for (const key in state) {
-			this[key](this.convertFromRaw(state[key]));
+			this[key](state[key]);
 		}
 
 		return this;
-	}
-
-	convertFromRaw(data) {
-		return data;
-	}
-
-	mergeData(a, b) {
-		return {...a, ...b};
 	}
 }

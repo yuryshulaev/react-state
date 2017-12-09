@@ -1,5 +1,5 @@
 import * as api from './api';
-import storeFetch, {storeFetchRaw} from './storeFetch';
+import storeFetch from './storeFetch';
 import TodoStore from './TodoStore';
 import UserStore from './UserStore';
 import UserInfoStore from './UserInfoStore';
@@ -7,7 +7,6 @@ import UserInfoStore from './UserInfoStore';
 export const env = {
 	api,
 	fetch: storeFetch,
-	fetchRaw: storeFetchRaw,
 };
 
 class Stores {

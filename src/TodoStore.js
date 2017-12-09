@@ -1,12 +1,13 @@
 import flyd from 'flyd';
 import {dropRepeatsWith} from 'flyd/module/droprepeats';
+import {equals} from 'ramda';
+import {updateIn} from 'seamless-immutable';
 import atom from './atom';
 import debounceInit from './debounceInit';
-import {equals} from 'ramda';
-import SeamlessStore from './SeamlessStore';
+import Store from './Store';
 
-export default class TodoStore extends SeamlessStore {
-	todos = atom(this.convertFromRaw([]));
+export default class TodoStore extends Store {
+	todos = atom([]);
 	requestStatus = atom('notAsked');
 	filter = atom(0);
 	filterDebounced = dropRepeatsWith(equals, debounceInit(1000, this.filter));
@@ -27,6 +28,6 @@ export default class TodoStore extends SeamlessStore {
 	}
 
 	toggle(index) {
-		this.todos(this.todos().updateIn([index, 'completed'], completed => !completed));
+		this.todos(updateIn(this.todos(), [index, 'completed'], completed => !completed));
 	}
 }

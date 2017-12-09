@@ -1,7 +1,7 @@
 import lift from 'flyd/module/lift';
-import SeamlessStore from './SeamlessStore';
+import Store from './Store';
 
-export default class UserInfoStore extends SeamlessStore {
+export default class UserInfoStore extends Store {
 	unfinishedTodoCount = lift(
 		(currentUser, todos) => {
 			return todos.reduce((acc, todo) => acc + (!todo.completed && todo.userId === currentUser.id ? 1 : 0), 0);

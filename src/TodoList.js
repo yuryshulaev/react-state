@@ -15,7 +15,13 @@ export default connect({
 				<div onClick={this.onFilterClick}>{filter}</div>
 				<div>{requestStatus}</div>
 				{todos.map((todo, i) =>
-					<Todo key={todo.id} todo={todo} index={i} isAuthor={todo.userId === currentUser.id} onClick={this.onTodoClick}/>
+					<Todo
+						key={todo.id}
+						todo={todo}
+						index={i}
+						isAuthor={todo.userId === currentUser.id}
+						onClick={this.onTodoClick}
+					/>
 				)}
 				<div>Unfinished: <strong>{unfinishedTodoCount}</strong></div>
 			</div>
